@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>员工管理系统</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}" href="../static/css/login.css" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/index.css}" href="../static/css/index.css" type="text/css"/>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="../static/js/hrsys.js" th:src="@{js/hrsys.js}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#hide").click(function(){
+                $("#fix-personal-info").hide();
+            });
+            $("#edit").click(function(){
+                $("#fix-personal-info").show();
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+<div class="Nav">
+    <ul class="urls">
+        <li>
+            <a class="link" href="/">员工人事管理</a>
+            <a class="hello-msg" th:text="'欢迎，'+${username}">欢迎，请登录</a>
+        </li>
+    </ul>
+</div>
+
+<div class="contentContainer">
+
+    <div class="block-info">
+
+        <h3>个人照片</h3>
+
+        <div class="info">
+            <a class="link" id="img" >
+                <img class="close-icon" src="../static/image/20200515.png" alt="头像" th:src="${employee.getPhoto()}" width="400px">
+            </a>
+        </div>
+
+        <form action="/photo/upload" method="post" enctype="multipart/form-data">
+            <span class="update-button">
+                <span>选择图片</span>
+                <input type="file" name="file" class="update-file">
+            </span>
+            <input  class="update-button" type="submit" value="上传">
+        </form>
+
+    </div>
+
+    <div class="block-info">
+
+        <h3>个人信息</h3><a id="edit" class="link" content="编辑" th:text="编辑">编辑</a>
+
+        <div class="personal-info">
+            <div class="info">
+                编号: &nbsp;&nbsp;<span th:text="${employee.geteID()}">123</span>
+            </div>
+            <div class="info">
+                姓名: &nbsp;&nbsp;<span th:text="${employee.getName()}">yyy</span>
+            </div>
+            <div class="info">
+                性别: &nbsp;&nbsp;<span th:text="${employee.getGenderS()}">男</span>
+            </div>
+            <div class="info">
+                民族: &nbsp;&nbsp;<span th:text="${employee.getNation()}">汉</span>
+            </div>
+            <div class="info">
+                生日: &nbsp;&nbsp;<span th:text="${employee.getBirthdayS()}">2000-5-4</span>
+            </div>
+            <div class="info">
+                政治面貌: &nbsp;&nbsp;<span th:text="${employee.getPolitics_status()}">团员</span>
+            </div>
+            <div class="info">
+                文化程度: &nbsp;&nbsp;<span th:text="${employee.getEducation()}">本科</span>
+            </div>
+            <div class="info">
+                婚姻状况: &nbsp;&nbsp;<span th:text="${employee.getMarriageS()}">未婚</span>
+            </div>
+            <div class="info">
+                籍贯: &nbsp;&nbsp;<span th:text="${employee.getHometown()}">中国</span>
+            </div>
+            <div class="info">
+                身份证号: &nbsp;&nbsp;<span th:text="${employee.getcID()}">456698195603246598</span>
+            </div>
+            <div class="info">
+                手机号码: &nbsp;&nbsp;<span th:text="${employee.getPhone()}">19236587941</span>
+            </div>
+            <div class="info">
+                档案存放地: &nbsp;&nbsp;<span th:text="${employee.getFileLoc()}">中国</span>
+            </div>
+            <div class="info">
+                户口所在地: &nbsp;&nbsp;<span th:text="${employee.getHouseholdRegistrationLoc()}">中国</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="block-info">
+
+        <h3>工作信息</h3>
+
+        <div class="work-info">
+
+            <div class="info">
+                工作证号: &nbsp;<span th:text="${employee.getwID()}">20200515</span>
+            </div>
+            <div class="info">
+                入职日期: &nbsp;<span th:text="${employee.getEmploymentDateS()}">2020-5-12</span>
+            </div>
+            <div class="info">
+                工作岗位: &nbsp;<span th:text="${employee.getJob()}">hr</span>
+            </div>
+            <div class="info">
+                职务: &nbsp;<span th:text="${employee.getLevel()}">p9</span>
+            </div>
+            <div class="info">
+                上级员工编号: &nbsp;<span th:text="${employee.getSeID()}">20200515</span>
+            </div>
+            <div class="info">
+                员工状态: &nbsp;<span th:text="${employee.getEmployeeState()}">在职</span>
+            </div>
+            <div class="info">
+                部门编号: &nbsp;<span th:text="${employee.getDepartmentID()}">05</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="input-info" id="fix-personal-info" >
+    <h4>修改个人信息
+        <a class="link hide" id="hide">
+            <img class="close-icon" src="../static/image/关闭.png" th:src="@{/image/关闭.png}" alt="close">
+        </a>
+    </h4>
+
+
+    <!--/*@thymesVar id="Employee" type="com.yihuang.hrsys.entities.Employee"*/-->
+    <form action="/update" method="post" th:object="${Employee}">
+
+        <table>
+            <tr>
+                <td>
+                    <input type="submit" id="submit" value="提交更改">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        编号: <input th:value="${employee.geteID()}" th:field="*{eID}" th:readonly="true"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        姓名: <input th:value="${employee.getName()}" th:field="*{name}" th:readonly="true"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        性别:
+                        <select th:field="*{gender}" th:readonly="true">
+                            <option th:value="1" th:text="男"></option>
+                            <option th:value="0" th:text="女"></option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        户口所在地: <input th:value="${employee.getHouseholdRegistrationLoc()}" th:field="*{householdRegistrationLoc}" th:readonly="true"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        民族: <input th:value="${employee.getNation()}" th:field="*{nation}" th:readonly="true"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        生日: <input th:value="${employee.getBirthdayS()}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        政治面貌: <input th:value="${employee.getPolitics_status()}" th:readonly="true" />
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        文化程度: <input th:value="${employee.getEducation()}" th:readonly="true"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                    婚姻状况: <input th:value="${employee.getMarriageS()}" th:readonly="true"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        籍贯: <input th:value="${employee.getHometown()}" th:field="*{hometown}" th:readonly="true"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        身份证号: <input th:value="${employee.getcID()}" th:field="*{cID}" th:readonly="true"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        手机号码: <input th:value="${employee.getPhone()}" th:field="*{phone}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        档案存放地: <input th:value="${employee.getFileLoc()}" th:field="*{fileLoc}" th:readonly="true"/>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    </form>
+
+</div>
+
+
+</body>
+
+</html>

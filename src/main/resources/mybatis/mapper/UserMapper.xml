@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yihuang.hrsys.dao.UserRepository">
+
+    <update id="createTable">
+        create table if not exists user (
+            username varchar(11) unique not null,
+            password varchar(32) unique not null,
+            isRoot boolean not null default false,
+            nickname varchar(32) unique,
+            primary key (username)
+        )
+    </update>
+
+    <update id="updateUserInfo" parameterType="User">
+        update ignore user
+        <set>
+            <if test="nickname!=null">nickname = #{nickname},</if>
+            <if test="password!=null">password = #{password},</if>
+            <if test="isRoot!=null">isRoot = #{isRoot},</if>
+        </set>
+        <where>
+            username = #{username}
+        </where>
+    </update>
+
+    <delete id="removeByUsername">
+        delete from user where username = #{username}
+    </delete>
+
+    <delete id="remove">
+        delete from user where username = #{username} and password = #{password}
+    </delete>
+
+    <insert id="addUser" parameterType="User">
+        insert into user (username,password,isRoot)
+        VALUES (#{username},#{password},#{isRoot})
+    </insert>
+
+    <select id="findAll" resultType="User">
+        select * from user
+    </select>
+
+    <select id="findByUsername" parameterType="String" resultType="User">
+        select * from user where username = #{username}
+    </select>
+
+</mapper>

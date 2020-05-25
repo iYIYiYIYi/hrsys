@@ -1,0 +1,202 @@
+body {
+    margin: 0;
+    background-color: #505050;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.urls .link {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    float: left;
+    margin: 5px;
+    border-style: none;
+    border-bottom-width: 5px;
+    border-bottom-style:  dotted;
+    border-bottom-color: #ff6666;
+    -webkit-transition: 0.3s;
+}
+
+.link {
+    margin: 5px;
+    text-decoration: none;
+    color: aquamarine;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.link:hover{
+    cursor: pointer;
+    animation: shadow 0.3s;
+    background-color: #ff975c;
+    color: black;
+    border-radius: 4px;
+    border-bottom-color: #ffffff;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.link-visited {
+    background-color: #ff975c;
+    color: black;
+    border-radius: 4px;
+    border-bottom-color: #ffffff;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.Nav {
+    align-content: center;
+    width: 100%;
+    position: static;
+    font-size: 35px;
+    padding: 10px;
+    overflow: hidden;
+    color: white;
+    background-color: #333;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.loginblock{
+    align-items: center;
+    margin: 50px auto;
+    background-color: #555555;
+    width: 40%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    padding: 5px;
+    text-align: center;
+    color: aquamarine;
+    border-radius: 15px;
+    font-size: 35px;
+    -webkit-transition: background 0.5s;
+}
+
+.loginblock:hover{
+    animation: shadow 0.5s;
+    box-shadow: 2px 6px 10px 2px rgba(0,0,0,0.2),4px 10px 25px 4px rgba(0,0,0,0.19);
+    color: black;
+    background-color: #ff975c;
+}
+
+h5 h4 h3 h2 h1 {
+    margin: 0;
+    padding: 0;
+}
+
+input::-webkit-input-placeholder{
+    color: white;
+}
+
+input {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    outline: none;
+    text-align: center;
+    background-color: #555555;
+    color: white;
+    margin: 20px;
+    height: 35px;
+    width: 250px;
+    border: 3px solid #d3571d;
+    border-radius: 10px;
+    -webkit-transition: 0.5s;
+}
+
+input:hover {
+    transform: scale(1.2);
+    animation: inputani 0.5s;
+    border-color: aquamarine;
+}
+
+#submit {
+    width: 100px;
+    height: 30px;
+    background-color: #ffa754;
+    color: black;
+}
+
+#submit:active {
+    transform: scale(0.9);
+}
+
+.submit {
+    width: 100px;
+    height: 30px;
+    background-color: #ffa754;
+    color: black;
+}
+
+.submit:active {
+    transform: scale(0.9);
+}
+
+table{
+    border: 0;
+}
+
+td {
+    margin: 0;
+    border-width: 0;
+}
+
+.block{
+    align-items: center;
+    margin: 15px;
+    display: flow;
+    float: left;
+    background-color: #555555;
+    max-width: 60%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    padding: 15px;
+    text-align: center;
+    color: aquamarine;
+    border-radius: 10px;
+    font-size: 25px;
+    -webkit-transition: background 0.5s;
+}
+
+.block:hover{
+    animation: shadow 0.5s;
+    box-shadow: 2px 6px 10px 2px rgba(0,0,0,0.2),4px 10px 25px 4px rgba(0,0,0,0.19);
+    color: black;
+    background-color: #ff975c;
+}
+
+@keyframes shadow {
+    from{
+        background-color: #555555;
+        color: aquamarine;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+    to{
+        box-shadow: 2px 6px 10px 2px rgba(0,0,0,0.2),4px 10px 25px 4px rgba(0,0,0,0.19);
+        background-color: #ff975c;
+        color: black;
+    }
+}
+
+@keyframes panel {
+    from{
+        background-color: #555555;
+        color: aquamarine;
+        border-bottom-color: #ff6666;
+    }
+    to{
+        background-color: #ff975c;
+        color: black;
+        border-bottom-color: #ffffff;
+    }
+}
+
+@keyframes inputani {
+    from{
+        border-color: #d3571d;
+    }
+    to{
+        border-color: aquamarine;
+    }
+}

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yihuang.hrsys.dao.EmployeeRepository">
+    <update id="createTable">
+        create table if not exists employee (
+            eID int not null unique ,
+            name varchar(11) not null,
+            gender varchar(2) ,
+            photo varchar(256) unique ,
+            nation varchar(20),
+            birthday datetime,
+            politics_status int default 0,
+            education int default 0,
+            marriage boolean default false,
+            hometown varchar(256),
+            cID varchar(18) not null unique ,
+            phone long,
+            fileLoc varchar(256),
+            householdRegistrationLoc varchar(256),
+            wID int not null unique ,
+            employmentDate datetime not null ,
+            job varchar(64) not null ,
+            level varchar(16) not null ,
+            seID int,
+            employeeState int not null default 0,
+            departmentID int ,
+
+            primary key (eID)
+        );
+
+
+        create index employee_eid_index
+            on employee (eID)
+    </update>
+
+    <update id="updateUserInfo" parameterType="Employee">
+        update ignore employee
+        <set>
+            <if test="name!=null">name = #{name},</if>
+            <if test="gender!=null">gender = #{gender},</if>
+            <if test="photo!=null">photo = #{photo},</if>
+            <if test="nation!=null">nation = #{nation},</if>
+            <if test="birthday!=null">birthday = #{birthday},</if>
+            <if test="politics_status!=null">politics_status = #{politics_status},</if>
+            <if test="education!=null">education = #{education},</if>
+            <if test="marriage!=null">marriage = #{marriage},</if>
+            <if test="hometown!=null">hometown = #{hometown},</if>
+            <if test="cID!=null">cID = #{cID},</if>
+            <if test="phone!=null">phone = #{phone},</if>
+            <if test="fileLoc!=null">fileLoc = #{fileLoc},</if>
+            <if test="householdRegistrationLoc!=null">householdRegistrationLoc = #{householdRegistrationLoc},</if>
+            <if test="wID!=null">wID = #{wID},</if>
+            <if test="employmentDate!=null">employmentDate = #{employmentDate},</if>
+            <if test="job!=null">job = #{job},</if>
+            <if test="level!=null">level = #{level},</if>
+            <if test="seID!=null">seID = #{seID},</if>
+            <if test="employeeState!=null">employeeState = #{employeeState},</if>
+            <if test="departmentID!=null">departmentID = #{departmentID},</if>
+        </set>
+        <where>
+            eID = #{eID}
+        </where>
+    </update>
+
+    <delete id="remove">
+        delete from employee where eID = #{eID}
+    </delete>
+
+    <insert id="addEmployee" parameterType="Employee">
+        insert into employee (eID,name,gender,photo,nation,birthday,politics_status,
+                              education,marriage,hometown,cID,phone,fileLoc,householdRegistrationLoc,
+                              wID,employmentDate,job,level,seID,employeeState,departmentID)
+            VALUES (#{eID},#{name},#{gender},#{photo},#{nation},#{birthday},#{politics_status},
+                    #{education},#{marriage},#{hometown},#{cID},#{phone},#{fileLoc},#{householdRegistrationLoc},
+                    #{wID},#{employmentDate},#{job},#{level},#{seID},#{employeeState},#{departmentID})
+    </insert>
+
+    <select id="findAll" resultType="Employee">
+        select * from employee
+    </select>
+
+    <select id="findByEID" parameterType="Long" resultType="Employee">
+        select * from employee where eid = #{eid}
+    </select>
+
+    <select id="findByCID" parameterType="String" resultType="Employee">
+        select * from employee where cID = #{cID}
+    </select>
+
+    <select id="findByWID" parameterType="Long" resultType="Employee">
+        select * from employee where wID = #{wID}
+    </select>
+
+    <select id="findByName" parameterType="String" resultType="Employee">
+        select *  from employee where name = #{name}
+    </select>
+
+</mapper>

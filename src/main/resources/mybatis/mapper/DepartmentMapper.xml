@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yihuang.hrsys.dao.DepartmentRepository">
+    <update id="createTable">
+        create table if not exists department (
+            departmentID int not null unique ,
+            departmentName varchar(12) not null unique ,
+            departmentFunctionID int,
+            superiorDepartment int,
+
+            primary key (departmentID)
+        )
+    </update>
+
+    <update id="updateDepartmentInfo" parameterType="Department">
+        update ignore department
+        <set>
+            <if test="departmentName!=null">departmentName = #{departmentName},</if>
+            <if test="departmentID!=null">departmentFunctionID = #{departmentFunctionID},</if>
+            <if test="superiorDepartment!=null">superiorDepartment = #{superiorDepartment},</if>
+        </set>
+        <where>
+            departmentID = #{departmentID}
+        </where>
+    </update>
+
+    <delete id="remove">
+        delete from department where departmentID = #{departmentID}
+    </delete>
+
+    <delete id="removeByDepartmentName" parameterType="String">
+        delete from department where departmentName = #{departmentName}
+    </delete>
+
+    <insert id="addDepartment" parameterType="Department">
+        insert into department (departmentID,departmentName,departmentFunctionID,superiorDepartment) values (#{departmentID},#{departmentName},#{departmentFunctionID},#{superiorDepartment})
+    </insert>
+
+    <select id="getDepartment" parameterType="String" resultType="Department">
+        select * from department where departmentName = #{departmentName}
+    </select>
+
+    <select id="getDepartmentByID" parameterType="Long" resultType="Department">
+        select * from department where departmentID = #{departmentID}
+    </select>
+
+    <select id="getAllDepartment" resultType="Department">
+        select * from department
+    </select>
+
+    <select id="getAllDepartmentName" resultType="String">
+        select departmentName from department
+    </select>
+
+    <select id="getEmployees" parameterType="Long" resultType="Employee">
+        select * from hrsys.employee e inner join hrsys.department d on d.departmentID = e.departmentID where d.departmentID = #{departmentID}
+    </select>
+
+</mapper>

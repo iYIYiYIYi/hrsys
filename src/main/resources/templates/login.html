@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>人事管理</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}" href="../static/css/login.css" type="text/css"/>
+</head>
+<body>
+
+    <div class="Nav">
+        <ul class="urls">
+            <li><a class="link" href="login.html">员工人事管理</a></li>
+<!--            <li><a class="link" href="login.html">Testing</a></li>-->
+        </ul>
+    </div>
+
+    <div class="loginblock">
+        <!--/*@thymesVar id="name" type="DAO"*/-->
+        <h2>登录</h2>
+        <p style="color: #ff6666;font-size:17px;" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+        <form action="/login" class="loginform" method="post">
+            <input id="username" th:id="username" name="username" placeholder="工号" type="text"><br>
+            <input id="password" th:id="password" name="password" placeholder="密码" type="password"><br>
+            <input id="submit" type="submit" value="登录">
+        </form>
+    </div>
+
+</body>
+</html>

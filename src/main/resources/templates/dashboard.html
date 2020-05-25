@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>员工管理系统</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}" href="../static/css/login.css" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/index.css}" href="../static/css/index.css" type="text/css"/>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="../static/js/hrsys.js" th:src="@{js/hrsys.js}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#hide").click(function(){
+                $("#fix-personal-info").hide();
+            });
+            $("#edit").click(function(){
+                $("#fix-personal-info").show();
+            });
+
+            $("#add-employee").click(function(){
+                $("#new-personal-info").show();
+            });
+            $("#hide-new").click(function(){
+                $("#new-personal-info").hide();
+            });
+
+            $("#hide-work-info").click(function(){
+                $("#fix-work-info").hide();
+            });
+            $("#edit-work").click(function(){
+               $("#fix-work-info").show();
+            });
+
+            $(".edit-department").click(function(){
+               $("#fix-department-info").show();
+            });
+            $("#hide-department").click(function(){
+                $("#fix-department-info").hide();
+            });
+
+            $("#add-department").click(function(){
+                $("#add-department-info").show();
+            });
+            $("#hide-new-department").click(function(){
+                $("#add-department-info").hide();
+            });
+
+        });
+
+        var tmpe,tmpd;
+        function changeColor(obj)
+        {
+            obj.className += " link-visited";
+            console.log(tmpe);
+            var s = obj.className.substr(0,2);
+            if (s === "le") {
+                if (tmpe != null) {
+                    tmpe.className = tmpe.className.replace(" link-visited","");
+                }
+                tmpe = obj;
+            } else if(s === "ld") {
+                if (tmpd != null) {
+                    tmpd.className = tmpd.className.replace(" link-visited","");
+                }
+                tmpd = obj;
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="Nav">
+    <ul class="urls">
+        <li>
+            <a class="link" href="/">员工人事管理</a>
+            <a class="hello-msg" th:text="'欢迎，'+${username}">欢迎，请登录</a>
+        </li>
+    </ul>
+</div>
+
+<div class="contentContainer">
+
+    <div id="departments" class="block-info">
+        <h3>部门</h3>
+        <a class="link" id="add-department" th:text="添加">添加</a><br>
+        <table th:each="idepartment:${departments}">
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+            </tr>
+
+            <!--/*@thymesVar id="getDepartmentName" type="com.yihuang.hrsys.entities.Department"*/-->
+            <tr class="ld link" th:classappend="${idepartment.departmentID} eq ${currentdepartment}?'link-visited':' '">
+                <td>
+                    <a class="link ll" th:text="${idepartment.getDepartmentID()}" th:href="@{'/dashboard/'+${idepartment.getDepartmentID()}}">1</a>
+                </td>
+                <td>
+                    <a class="link ll" th:text="${idepartment.getDepartmentName()}" th:href="@{'/dashboard/'+${idepartment.getDepartmentID()}}">department</a>
+                </td>
+                <td th:if="${idepartment.departmentID} eq ${currentdepartment}">
+                    <a class="link edit-department" th:text="编辑">编辑</a>
+                </td>
+                <td th:if="${idepartment.departmentID} eq ${currentdepartment}">
+                    <a class="link delete" th:href="@{'/deleteDepartment/'+${idepartment.departmentID}}" th:text="删除">删除</a>
+                </td>
+
+            </tr>
+        </table>
+    </div>
+
+    <div id="employees" class="block-info">
+        <h3>员工</h3>
+        <a class="link" id="add-employee" th:text="添加">添加</a><br>
+        <h1 th:if="${msgE}" th:text="${msgE}"></h1>
+        <table th:each="iemployee:${employees}" th:if="${msgE} eq null">
+            <tr>
+                <th>员工编号</th>
+                <th>员工姓名</th>
+            </tr>
+
+            <tr class="le link" th:classappend="${iemployee.eID} eq ${Employee.eID}?'link-visited':' '" >
+                <td>
+                    <a class="link ll" th:text="${iemployee.geteID()}" th:href="@{'/dashboard/'+${department.getDepartmentID()}+'/'+${iemployee.geteID()}}">00</a>
+                </td>
+                <td >
+                    <a class="link ll" th:text="${iemployee.getName()}" th:href="@{'/dashboard/'+${department.getDepartmentID()}+'/'+${iemployee.geteID()}}">Name</a>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="block-info" th:if="${msgE} eq null">
+
+        <h3>个人信息</h3><a id="edit" class="link" content="编辑" th:text="编辑">编辑</a>
+        <a class="link" id="delete-employee" th:href="@{'/delete/'+${Employee.eID}}" th:text="删除员工">删除</a>
+        <div class="personal-info">
+            <div class="info">
+                编号: &nbsp;&nbsp;<span th:text="${Employee.geteID()}">123</span>
+            </div>
+            <div class="info">
+                姓名: &nbsp;&nbsp;<span th:text="${Employee.getName()}">yyy</span>
+            </div>
+            <div class="info">
+                性别: &nbsp;&nbsp;<span th:text="${Employee.getGenderS()}">男</span>
+            </div>
+            <div class="info">
+                民族: &nbsp;&nbsp;<span th:text="${Employee.getNation()}">汉</span>
+            </div>
+            <div class="info">
+                生日: &nbsp;&nbsp;<span th:text="${Employee.getBirthdayS()}">2000-5-4</span>
+            </div>
+            <div class="info">
+                政治面貌: &nbsp;&nbsp;<span th:text="${Employee.getPolitics_status()}">团员</span>
+            </div>
+            <div class="info">
+                文化程度: &nbsp;&nbsp;<span th:text="${Employee.getEducation()}">本科</span>
+            </div>
+            <div class="info">
+                婚姻状况: &nbsp;&nbsp;<span th:text="${Employee.getMarriageS()}">未婚</span>
+            </div>
+            <div class="info">
+                籍贯: &nbsp;&nbsp;<span th:text="${Employee.getHometown()}">中国</span>
+            </div>
+            <div class="info">
+                身份证号: &nbsp;&nbsp;<span th:text="${Employee.getcID()}">456698195603246598</span>
+            </div>
+            <div class="info">
+                手机号码: &nbsp;&nbsp;<span th:text="${Employee.getPhone()}">19236587941</span>
+            </div>
+            <div class="info">
+                档案存放地: &nbsp;&nbsp;<span th:text="${Employee.getFileLoc()}">中国</span>
+            </div>
+            <div class="info">
+                户口所在地: &nbsp;&nbsp;<span th:text="${Employee.getHouseholdRegistrationLoc()}">中国</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="block-info" th:if="${msgE} eq null">
+
+        <h3>工作信息</h3><a id="edit-work" class="link" content="编辑" th:text="编辑">编辑</a>
+
+        <div class="work-info">
+
+            <div class="info">
+                工作证号: &nbsp;<span th:text="${Employee.getwID()}">20200515</span>
+            </div>
+            <div class="info">
+                入职日期: &nbsp;<span th:text="${Employee.getEmploymentDateS()}">2020-5-12</span>
+            </div>
+            <div class="info">
+                工作岗位: &nbsp;<span th:text="${Employee.getJob()}">hr</span>
+            </div>
+            <div class="info">
+                职务: &nbsp;<span th:text="${Employee.getLevel()}">p9</span>
+            </div>
+            <div class="info">
+                上级员工编号: &nbsp;<span th:text="${Employee.getSeID()}">20200515</span>
+            </div>
+            <div class="info">
+                员工状态: &nbsp;<span th:text="${Employee.getEmployeeState()}">在职</span>
+            </div>
+            <div class="info">
+                部门编号: &nbsp;<span th:text="${Employee.getDepartmentID()}">05</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--/*@thymesVar id="Employee" type="com.yihuang.hrsys.entities.Employee"*/-->
+<form action="/update" method="post" th:if="${msgE} eq null" th:object="${Employee}">
+
+    <div class="input-info" id="fix-personal-info" >
+        <h4>修改个人信息
+            <a class="link hide" id="hide">
+                <img class="close-icon" src="../static/image/关闭.png" th:src="@{/image/关闭.png}" alt="close">
+            </a>
+        </h4>
+
+        <table>
+            <tr>
+                <td>
+                    <input type="submit" class="submit" value="提交更改">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        编号: <input type="number" th:value="${Employee.geteID()}" th:field="*{eID}" th:readonly="true"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        姓名: <input th:value="${Employee.getName()}" th:field="*{name}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        性别:
+                        <select th:field="*{gender}">
+                            <option th:value="1" th:text="男"></option>
+                            <option th:value="0" th:text="女"></option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        民族: <input th:value="${Employee.getNation()}" th:field="*{nation}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        生日: <input th:value="${Employee.getBirthdayS()}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        政治面貌:
+                        <select th:field="*{politics_status}">
+                          <option th:each="enmu : ${T(com.yihuang.hrsys.entities.enums.PoliticState).values()}"
+                                  th:value="${enmu.name()}"
+                                  th:text="${enmu.name}">
+                           </option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        文化程度:
+                        <select th:field="*{education}">
+                              <option th:each="enmu : ${T(com.yihuang.hrsys.entities.enums.Education).values()}"
+                                      th:value="${enmu.name()}"
+                                      th:text="${enmu.name}">
+                               </option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        婚姻状况:
+                        <select th:field="*{marriage}">
+                            <option th:text="已婚" th:value="true"></option>
+                            <option th:text="未婚" th:value="false"></option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        籍贯: <input th:value="${Employee.getHometown()}" th:field="*{hometown}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        身份证号: <input th:value="${Employee.getcID()}" th:field="*{cID}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        手机号码: <input type="number" th:value="${Employee.getPhone()}" th:field="*{phone}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        档案存放地: <input th:value="${Employee.getFileLoc()}" th:field="*{fileLoc}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        户口所在地: <input th:value="${Employee.getHouseholdRegistrationLoc()}" th:field="*{householdRegistrationLoc}"/>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="input-info" id="fix-work-info" >
+        <h4>修改员工信息
+            <a class="link hide" id="hide-work-info">
+                <img class="close-icon" src="../static/image/关闭.png" th:src="@{/image/关闭.png}" alt="close">
+            </a>
+        </h4>
+
+        <table>
+            <tr>
+                <td>
+                    <input type="submit" class="submit" value="提交更改">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        工作证号: <input th:value="${Employee.getwID()}" th:field="*{wID}" th:readonly="true"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        入职日期: <input th:value="${#dates.format(Employee.getEmploymentDate(),'yyyy-MM-dd')}" type="date" th:readonly="true" th:field="*{employmentDate}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        工作岗位: <input th:value="${Employee.getJob()}" th:field="*{job}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        职务: <input th:value="${Employee.getLevel()}" th:field="*{level}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        上级员工编号: <input th:value="${Employee.getSeID()}" th:field="*{seID}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        员工状态:
+                        <select th:field="*{employeeState}">
+                              <option th:each="enmu : ${T(com.yihuang.hrsys.entities.enums.EmployeeState).values()}"
+                                      th:value="${enmu.name()}"
+                                      th:text="${enmu.name}">
+                               </option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        部门编号: <input th:value="${Employee.getDepartmentID()}" th:field="*{departmentID}" />
+                    </div>
+                </td>
+                <td>
+
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</form>
+
+<form action="/add" method="post" th:object="${newEmployee}">
+
+    <div class="input-info" id="new-personal-info" >
+
+        <a class="link hide" id="hide-new">
+            <img class="close-icon" src="../static/image/关闭.png" th:src="@{/image/关闭.png}" alt="close">
+        </a>
+        <h4>修改个人信息</h4>
+
+        <table>
+            <tr>
+                <td>
+                    <input type="submit" class="submit" value="提交更改">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        编号*: <input type="number" th:field="*{eID}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        姓名*: <input th:field="*{name}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        性别:
+                        <select th:field="*{gender}">
+                            <option th:value="1" th:text="男"></option>
+                            <option th:value="0" th:text="女"></option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        民族: <input th:field="*{nation}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        户口所在地: <input th:fied="*{householdRegistrationLoc}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        政治面貌:
+                        <select th:field="*{politics_status}">
+                              <option th:each="enmu : ${T(com.yihuang.hrsys.entities.enums.PoliticState).values()}"
+                                      th:value="${enmu.name()}"
+                                      th:text="${enmu.name}">
+                               </option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        文化程度:
+                        <select th:field="*{education}">
+                              <option th:each="enmu : ${T(com.yihuang.hrsys.entities.enums.Education).values()}"
+                                      th:value="${enmu.name()}"
+                                      th:text="${enmu.name}">
+                               </option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        婚姻状况:
+                        <select th:field="*{marriage}">
+                            <option th:text="已婚" th:value="true"></option>
+                            <option th:text="未婚" th:value="false"></option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        籍贯: <input th:field="*{hometown}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        身份证号*: <input th:field="*{cID}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        手机号码: <input type="number" th:field="*{phone}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        档案存放地: <input th:field="*{fileLoc}"/>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <h4>修改员工信息</h4>
+
+        <table>
+
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        工作证号*: <input th:field="*{wID}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        入职日期*: <input type="date" th:field="*{employmentDate}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        工作岗位*: <input th:field="*{job}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        职务*: <input th:field="*{level}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        上级员工编号: <input type="number" th:field="*{seID}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        员工状态*:
+                        <select th:field="*{employeeState}">
+                              <option th:each="enmu : ${T(com.yihuang.hrsys.entities.enums.EmployeeState).values()}"
+                                      th:value="${enmu.name()}"
+                                      th:text="${enmu.name}">
+                               </option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+</form>
+
+<!--/*@thymesVar id="Department" type="com.yihuang.hrsys.entities.Department"*/-->
+<form action="/updateDepartment" method="post" th:object="${Department}">
+    <div class="input-info" id="fix-department-info" >
+        <h4>编辑部门
+            <a class="link hide" id="hide-department">
+                <img class="close-icon" src="../static/image/关闭.png" th:src="@{/image/关闭.png}" alt="close">
+            </a>
+        </h4>
+
+        <table>
+            <tr>
+                <td>
+                    <input type="submit" class="submit" value="提交更改">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        部门名称: <input th:value="${Department.departmentName}" th:field="*{departmentName}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        业务编号: <input th:value="${Department.getDepartmentFunctionID()}" th:field="*{departmentFunctionID}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        上级部门编号: <input th:value="${Department.getSuperioDepartment()}" th:field="*{superioDepartment}"/>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+
+<form action="/addDepartment" method="post" th:object="${newDepartment}">
+    <div class="input-info" id="add-department-info" >
+        <h4>编辑部门
+            <a class="link hide" id="hide-new-department">
+                <img class="close-icon" src="../static/image/关闭.png" th:src="@{/image/关闭.png}" alt="close">
+            </a>
+        </h4>
+
+        <table>
+            <tr>
+                <td>
+                    <input type="submit" class="submit" value="提交更改">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="input-info-piece">
+                        部门名称*: <input th:field="*{departmentName}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        业务编号*: <input th:field="*{departmentFunctionID}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-info-piece">
+                        上级部门编号: <input th:field="*{superioDepartment}"/>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+
+
+</body>
+</html>
