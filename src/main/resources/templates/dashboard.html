@@ -98,7 +98,7 @@
                     <a class="link ll" th:text="${idepartment.getDepartmentName()}" th:href="@{'/dashboard/'+${idepartment.getDepartmentID()}}">department</a>
                 </td>
                 <td th:if="${idepartment.departmentID} eq ${currentdepartment}">
-                    <a class="link edit-department" th:text="编辑">编辑</a>
+                    <a class="link edit-department ll" th:text="编辑">编辑</a>
                 </td>
                 <td th:if="${idepartment.departmentID} eq ${currentdepartment}">
                     <script type="text/javascript" th:inline="javascript">
@@ -111,7 +111,7 @@
                             }
                         }
                     </script>
-                    <a class="link delete" onclick="attention()" th:text="删除">删除</a>
+                    <a class="link delete ll" onclick="attention()" th:text="删除">删除</a>
                 </td>
 
             </tr>
@@ -129,7 +129,7 @@
                 <th>员工姓名</th>
             </tr>
 
-            <tr class="le link" th:classappend="${iemployee.eID} eq ${Employee.eID}?'link-visited':' '" >
+            <tr class="le link" th:classappend="${iemployee.eID} eq ${Employee.eID}?'link-visited':' ' " >
                 <td>
                     <a class="link ll" th:text="${iemployee.geteID()}" th:href="@{'/dashboard/'+${department.getDepartmentID()}+'/'+${iemployee.geteID()}}">00</a>
                 </td>

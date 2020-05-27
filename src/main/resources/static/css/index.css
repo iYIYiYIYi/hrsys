@@ -232,6 +232,8 @@ select:hover{
 
 .ll {
     color: white;
+    box-shadow: none;
+
 }
 
 /* google、safari */
