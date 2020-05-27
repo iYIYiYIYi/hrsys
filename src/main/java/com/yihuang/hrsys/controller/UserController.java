@@ -28,9 +28,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = {"/index/{username}","/index"})
+    @RequestMapping(value = {"/","/index/{username}","/index"})
     public ModelAndView index(HttpSession session) {
         String username = (String) session.getAttribute("username");
+        if (userService.findUser(username).isRoot()) {
+            System.out.println("管理员即将跳转");
+            return new ModelAndView("redirect:/dashboard");
+        }
+
         Employee employee = employeeService.findEmployee(Long.parseLong(username));
 
         if (userService.findUser(username).isRoot()) {
@@ -51,11 +56,5 @@ public class UserController {
 
         return modelAndView;
     }
-
-
-    public String error() {
-        return "error";
-    }
-
 
 }

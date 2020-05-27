@@ -65,6 +65,14 @@ public class UserService implements IUserService {
         return true;
     }
 
+    public void resetPwd(User user,String password) {
+        String username = user.getUsername();
+        password = string2MD5(password);
+        password = string2MD5(password + username);
+        user.setPassword(password);
+        updateUser(user);
+    }
+
     public boolean register(User user) {
         if (user == null) {
             return false;

@@ -1,6 +1,5 @@
 package com.yihuang.hrsys.controller;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
 import com.yihuang.hrsys.entities.Department;
 import com.yihuang.hrsys.entities.Employee;
 import com.yihuang.hrsys.entities.User;
@@ -13,16 +12,12 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,8 +66,9 @@ public class UpdateController {
             newUser.setPassword(employee.geteID().toString());
             newUser.setRoot(employee.getLevel().charAt(1) >= '7');
             userService.addUser(newUser);
+            return "redirect:/dashboard/"+session.getAttribute("nd")+"/"+employee.geteID();
         }
-        return "redirect:/dashboard/"+session.getAttribute("nd")+"/"+employee.geteID();
+        return "redirect:/dashboard/"+session.getAttribute("nd");
     }
 
     @RequestMapping(value = "/delete/{eID}")
@@ -113,6 +109,7 @@ public class UpdateController {
     @RequestMapping(value = "/addDepartment")
     public String addDepartment(@ModelAttribute(value = "newDepartment") Department department,HttpSession session) {
         if (department != null) {
+            department.setDepartmentID(departmentService.getAllDepartmentNames().size()+1);
             departmentService.insertDepartment(department);
             session.setAttribute("nd",department.getDepartmentID());
         }
@@ -124,11 +121,15 @@ public class UpdateController {
     public String deleteDepartment(@PathVariable Long departmentID,HttpSession session) {
         if (userService.findUser((String) session.getAttribute("username")).isRoot()) {
             try {
+                Iterable<Employee> employeeIterable = departmentService.getAllEmployee(departmentID);
+                for (Employee employee:employeeIterable) {
+                    employeeService.deleteEmployee(employee);
+                }
                 departmentService.deleteDepartment(departmentID);
             } catch (Exception ignored) {
 
             }
-            return "redirect:/dashboard/"+session.getAttribute("nd");
+            return "redirect:/dashboard/";
         }
         return "redirect:/index/"+session.getAttribute("username");
     }

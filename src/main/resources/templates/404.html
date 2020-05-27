@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>错误</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/login.css}" href="../static/css/login.css" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/index.css}" href="../static/css/index.css" type="text/css"/>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+
+<div class="Nav">
+    <ul class="urls">
+        <li>
+            <a class="link" href="/">员工人事管理</a>
+            <a class="hello-msg" th:text="出错了">欢迎</a>
+        </li>
+    </ul>
+</div>
+
+<div class="contentContainer">
+
+    <div class="block-info">
+
+        <h1 style="color: #ff6666">》》》错误《《《</h1>
+        <h2 style="color: #ff0029;text-align: center" th:text="${errormsg} eq null?'页面找不到了!':${errormsg}">页面找不到了!</h2>
+        <a class="link" href="/index">返回主页</a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

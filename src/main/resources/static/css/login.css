@@ -24,11 +24,12 @@ ul {
 }
 
 .link {
-    margin: 5px;
+    margin: 2px 5px;
     text-decoration: none;
     color: aquamarine;
     border-radius: 5px;
     padding: 5px;
+    box-shadow: 0 3px 4px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
 .link:hover{

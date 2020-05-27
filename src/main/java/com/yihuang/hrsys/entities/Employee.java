@@ -1,5 +1,6 @@
 package com.yihuang.hrsys.entities;
 
+import com.github.houbb.iexcel.annotation.ExcelField;
 import com.yihuang.hrsys.entities.enums.Education;
 import com.yihuang.hrsys.entities.enums.EmployeeState;
 import com.yihuang.hrsys.entities.enums.PoliticState;
@@ -17,21 +18,33 @@ public class Employee {
     /***
      * below are civil information
      */
+    @ExcelField(headName = "员工编号")
     private Long eID;
+
+    @ExcelField(headName = "员工姓名")
     private String name;
+    @ExcelField(headName = "性别（男为1，女为0）")
     private String gender;
 
     /***
      *photo storage location
      */
     private String photo;
+    @ExcelField(headName = "民族")
     private String nation;
+    @ExcelField(headName = "出生日期")
     private Timestamp birthday;
+    @ExcelField(headName = "政治面貌")
     private PoliticState politics_status;
+    @ExcelField(headName = "文化程度")
     private Education education;
+    @ExcelField(headName = "是否结婚")
     private Boolean marriage;
+    @ExcelField(headName = "籍贯")
     private String hometown;
+    @ExcelField(headName = "身份证号")
     private String cID;
+    @ExcelField(headName = "手机号码",writeRequire = false)
     private Long phone;
     private String fileLoc;
     private String householdRegistrationLoc;
@@ -47,6 +60,7 @@ public class Employee {
     private String level;
     private Long seID;
     private EmployeeState employeeState;
+    @ExcelField(headName = "部门编号")
     private Long departmentID;
 
     public Employee() {

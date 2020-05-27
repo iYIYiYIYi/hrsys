@@ -66,15 +66,16 @@ public class DashBoardController {
         }
 
         Employee newEmployee = new Employee();
-        newEmployee.setDepartmentID(departmentService.getDepartment(departmentName).getDepartmentID());
         modelAndView.addObject("newEmployee",newEmployee);
+
         modelAndView.addObject("Department",D);
 
         Department newDepartment = new Department();
-        newDepartment.setDepartmentID(departments.size()+1);
         modelAndView.addObject("newDepartment",newDepartment);
 
+        // ce -> certificate of employee
         session.setAttribute("ce",employeeEID);
+        // nd -> Department Name
         session.setAttribute("nd",departmentID);
 
         return modelAndView;

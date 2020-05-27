@@ -101,7 +101,17 @@
                     <a class="link edit-department" th:text="编辑">编辑</a>
                 </td>
                 <td th:if="${idepartment.departmentID} eq ${currentdepartment}">
-                    <a class="link delete" th:href="@{'/deleteDepartment/'+${idepartment.departmentID}}" th:text="删除">删除</a>
+                    <script type="text/javascript" th:inline="javascript">
+                        function attention() {
+                            /*<![CDATA[*/
+                                var url = /*[[@{'/deleteDepartment/'+${idepartment.departmentID}}]]*/ "";
+                            /*]]>*/
+                            if (window.confirm("这将会清除所有该部门下的员工！")){
+                                location.href = url;
+                            }
+                        }
+                    </script>
+                    <a class="link delete" onclick="attention()" th:text="删除">删除</a>
                 </td>
 
             </tr>
@@ -110,6 +120,7 @@
 
     <div id="employees" class="block-info">
         <h3>员工</h3>
+        <a class="link" th:href="@{'/download/'+${department.departmentID}}" th:text="导出Excel">导出Excel</a><br>
         <a class="link" id="add-employee" th:text="添加">添加</a><br>
         <h1 th:if="${msgE}" th:text="${msgE}"></h1>
         <table th:each="iemployee:${employees}" th:if="${msgE} eq null">
@@ -131,9 +142,96 @@
     </div>
 
     <div class="block-info" th:if="${msgE} eq null">
+        <h3>用户信息</h3>
+
+        <div class="info">
+            <a class="link" id="img" >
+                <img class="close-icon" src="../static/image/20200515.png" alt="头像" th:src="${Employee.getPhoto()}" width="150px">
+            </a>
+        </div>
+
+        <script type="text/javascript" th:inline="javascript">
+            function showuserpsw(form) {
+                console.log("啥情况");
+                var password = form.password;
+                if (password.style.display === "none") {
+                    password.style.display = "inline";
+                    return false;
+                }
+
+                /*<![CDATA[*/
+                var EmployeEID = /*[[${Employee.eID}]]*/ "";
+                /*]]>*/
+                var input = password.value;
+                if (input.length === 0) {
+                    password.placeholder = "密码不能为空";
+                    return false
+                }
+
+                form.action = "/changeuserpwd/"+EmployeEID+"/"+input;
+                console.log("Trying");
+
+                return true;
+            }
+        </script>
+        <form action="/changeuserpwd/" method="post" onsubmit="return showuserpsw(this);">
+            <div>
+                <input type="text" placeholder="请输入密码" th:placeholder="请输入密码" th:name="password" name="password" style="display: none">
+            </div>
+            <div>
+                <input class="update-button" name="updatepsw" type="submit"  value="修改密码">
+            </div>
+        </form>
+    </div>
+
+    <div class="block-info" th:if="${msgE} eq null">
+
+        <h3>工作信息</h3><a id="edit-work" class="link" content="编辑" th:text="编辑">编辑</a>
+
+        <div class="work-info">
+
+            <div class="info">
+                工作证号: &nbsp;<span th:text="${Employee.getwID()}">20200515</span>
+            </div>
+            <div class="info">
+                入职日期: &nbsp;<span th:text="${Employee.getEmploymentDateS()}">2020-5-12</span>
+            </div>
+            <div class="info">
+                工作岗位: &nbsp;<span th:text="${Employee.getJob()}">hr</span>
+            </div>
+            <div class="info">
+                职务: &nbsp;<span th:text="${Employee.getLevel()}">p9</span>
+            </div>
+            <div class="info">
+                上级员工编号: &nbsp;<span th:text="${Employee.getSeID()}">20200515</span>
+            </div>
+            <div class="info">
+                员工状态: &nbsp;<span th:text="${Employee.getEmployeeState()}">在职</span>
+            </div>
+            <div class="info">
+                部门编号: &nbsp;<span th:text="${Employee.getDepartmentID()}">05</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="block-info" th:if="${msgE} eq null">
 
         <h3>个人信息</h3><a id="edit" class="link" content="编辑" th:text="编辑">编辑</a>
-        <a class="link" id="delete-employee" th:href="@{'/delete/'+${Employee.eID}}" th:text="删除员工">删除</a>
+
+        <script type="text/javascript" th:inline="javascript">
+            function deleteEmployee() {
+                /*<![CDATA[*/
+                var url = /*[[@{'/delete/'+${Employee.eID}}]]*/ "";
+                /*]]>*/
+                if (window.confirm("真的要删除该员工吗？")){
+                    location.href = url;
+                }
+            }
+        </script>
+        <a class="link" id="delete-employee" onclick="deleteEmployee()" th:text="删除员工">删除</a>
+
         <div class="personal-info">
             <div class="info">
                 编号: &nbsp;&nbsp;<span th:text="${Employee.geteID()}">123</span>
@@ -179,38 +277,6 @@
 
     </div>
 
-    <div class="block-info" th:if="${msgE} eq null">
-
-        <h3>工作信息</h3><a id="edit-work" class="link" content="编辑" th:text="编辑">编辑</a>
-
-        <div class="work-info">
-
-            <div class="info">
-                工作证号: &nbsp;<span th:text="${Employee.getwID()}">20200515</span>
-            </div>
-            <div class="info">
-                入职日期: &nbsp;<span th:text="${Employee.getEmploymentDateS()}">2020-5-12</span>
-            </div>
-            <div class="info">
-                工作岗位: &nbsp;<span th:text="${Employee.getJob()}">hr</span>
-            </div>
-            <div class="info">
-                职务: &nbsp;<span th:text="${Employee.getLevel()}">p9</span>
-            </div>
-            <div class="info">
-                上级员工编号: &nbsp;<span th:text="${Employee.getSeID()}">20200515</span>
-            </div>
-            <div class="info">
-                员工状态: &nbsp;<span th:text="${Employee.getEmployeeState()}">在职</span>
-            </div>
-            <div class="info">
-                部门编号: &nbsp;<span th:text="${Employee.getDepartmentID()}">05</span>
-            </div>
-
-        </div>
-
-    </div>
-
 </div>
 
 <!--/*@thymesVar id="Employee" type="com.yihuang.hrsys.entities.Employee"*/-->
@@ -232,17 +298,17 @@
             <tr>
                 <td>
                     <div class="input-info-piece">
-                        编号: <input type="number" th:value="${Employee.geteID()}" th:field="*{eID}" th:readonly="true"/>
+                        编  号: <input type="number" th:value="${Employee.geteID()}" th:field="*{eID}" th:readonly="true"/>
                     </div>
                 </td>
                 <td>
                     <div class="input-info-piece">
-                        姓名: <input th:value="${Employee.getName()}" th:field="*{name}"/>
+                        姓  名: <input th:value="${Employee.getName()}" th:field="*{name}"/>
                     </div>
                 </td>
                 <td>
                     <div class="input-info-piece">
-                        性别:
+                        性  别:
                         <select th:field="*{gender}">
                             <option th:value="1" th:text="男"></option>
                             <option th:value="0" th:text="女"></option>
@@ -253,12 +319,12 @@
             <tr>
                 <td>
                     <div class="input-info-piece">
-                        民族: <input th:value="${Employee.getNation()}" th:field="*{nation}"/>
+                        民  族: <input th:value="${Employee.getNation()}" th:field="*{nation}"/>
                     </div>
                 </td>
                 <td>
                     <div class="input-info-piece">
-                        生日: <input th:value="${Employee.getBirthdayS()}"/>
+                        生  日: <input th:value="${Employee.getBirthdayS()}"/>
                     </div>
                 </td>
                 <td>
@@ -296,7 +362,7 @@
                 </td>
                 <td>
                     <div class="input-info-piece">
-                        籍贯: <input th:value="${Employee.getHometown()}" th:field="*{hometown}"/>
+                        籍  贯: <input th:value="${Employee.getHometown()}" th:field="*{hometown}"/>
                     </div>
                 </td>
             </tr>
@@ -400,15 +466,44 @@
 
 </form>
 
-<form action="/add" method="post" th:object="${newEmployee}">
+<script type="text/javascript" th:inline="javascript">
+    function determineEmployee(form) {
+
+        if (form.eID.value === '') {
+            form.eID.placeholder = "该项不能为空";
+            return false
+        }if (form.name.value === '') {
+            form.name.placeholder = "该项不能为空";
+            return false
+        }if (form.cID.value === '') {
+            form.cID.placeholder = "该项不能为空";
+            return false
+        }if (form.wID.value === '') {
+            form.wID.placeholder = "该项不能为空";
+            return false
+        }if (form.employmentDate.value === '') {
+            form.employmentDate.style = "color:red";
+            return false
+        }if (form.job.value === '') {
+            form.job.style = "color:red";
+            return false
+        }if (form.level.value === '') {
+            form.level.style = "color:red";
+            return false
+        }
+
+        return true;
+    }
+</script>
+<form name="add-new-employee" action="/add" method="post" onsubmit="return determineEmployee(this);" th:object="${newEmployee}">
 
     <div class="input-info" id="new-personal-info" >
 
         <a class="link hide" id="hide-new">
             <img class="close-icon" src="../static/image/关闭.png" th:src="@{/image/关闭.png}" alt="close">
         </a>
-        <h4>修改个人信息</h4>
-
+        <h4>添加个人信息</h4>
+        <p style="font-size: 17px">带*号为必填项</p>
         <table>
             <tr>
                 <td>
@@ -418,17 +513,17 @@
             <tr>
                 <td>
                     <div class="input-info-piece">
-                        编号*: <input type="number" th:field="*{eID}"/>
+                        编  号*: <input name="eID" type="number" th:field="*{eID}"/>
                     </div>
                 </td>
                 <td>
                     <div class="input-info-piece">
-                        姓名*: <input th:field="*{name}"/>
+                        姓  名*: <input name="name" th:field="*{name}"/>
                     </div>
                 </td>
                 <td>
                     <div class="input-info-piece">
-                        性别:
+                        性  别:
                         <select th:field="*{gender}">
                             <option th:value="1" th:text="男"></option>
                             <option th:value="0" th:text="女"></option>
@@ -439,7 +534,7 @@
             <tr>
                 <td>
                     <div class="input-info-piece">
-                        民族: <input th:field="*{nation}"/>
+                        民  族: <input th:field="*{nation}"/>
                     </div>
                 </td>
                 <td>
@@ -464,9 +559,9 @@
                     <div class="input-info-piece">
                         文化程度:
                         <select th:field="*{education}">
-                              <option th:each="enmu : ${T(com.yihuang.hrsys.entities.enums.Education).values()}"
-                                      th:value="${enmu.name()}"
-                                      th:text="${enmu.name}">
+                              <option th:each="enmu1 : ${T(com.yihuang.hrsys.entities.enums.Education).values()}"
+                                      th:value="${enmu1.name()}"
+                                      th:text="${enmu1.name}">
                                </option>
                         </select>
                     </div>
@@ -482,14 +577,14 @@
                 </td>
                 <td>
                     <div class="input-info-piece">
-                        籍贯: <input th:field="*{hometown}"/>
+                        籍  贯: <input th:field="*{hometown}"/>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td>
                     <div class="input-info-piece">
-                        身份证号*: <input th:field="*{cID}"/>
+                        身份证号*: <input name="cID" th:field="*{cID}"/>
                     </div>
                 </td>
                 <td>
@@ -512,24 +607,24 @@
             <tr>
                 <td>
                     <div class="input-info-piece">
-                        工作证号*: <input th:field="*{wID}"/>
+                        工作证号*: <input name="wID" th:field="*{wID}"/>
                     </div>
                 </td>
                 <td>
                     <div class="input-info-piece">
-                        入职日期*: <input type="date" th:field="*{employmentDate}"/>
+                        入职日期*: <input name="employmentDate" type="date" th:field="*{employmentDate}"/>
                     </div>
                 </td>
                 <td>
                     <div class="input-info-piece">
-                        工作岗位*: <input th:field="*{job}"/>
+                        工作岗位*: <input name="job" th:field="*{job}"/>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td>
                     <div class="input-info-piece">
-                        职务*: <input th:field="*{level}"/>
+                        职务*: <input name="level" th:field="*{level}"/>
                     </div>
                 </td>
                 <td>
@@ -591,7 +686,21 @@
     </div>
 </form>
 
-<form action="/addDepartment" method="post" th:object="${newDepartment}">
+<script type="text/javascript" th:inline="javascript">
+    function determineDepartment(form) {
+
+        if (form.departmentName.value === '') {
+            form.departmentName.placeholder = "该项不能为空";
+            return false
+        }if (form.departmentFunctionID.value === '') {
+            form.departmentFunctionID.placeholder = "该项不能为空";
+            return false
+        }
+
+        return true;
+    }
+</script>
+<form name="add-new-department" action="/addDepartment" onsubmit="return determineDepartment(this);" method="post" th:object="${newDepartment}">
     <div class="input-info" id="add-department-info" >
         <h4>编辑部门
             <a class="link hide" id="hide-new-department">
@@ -608,12 +717,12 @@
             <tr>
                 <td>
                     <div class="input-info-piece">
-                        部门名称*: <input th:field="*{departmentName}"/>
+                        部门名称*: <input name="departmentName" th:field="*{departmentName}"/>
                     </div>
                 </td>
                 <td>
                     <div class="input-info-piece">
-                        业务编号*: <input th:field="*{departmentFunctionID}"/>
+                        业务编号*: <input name="departmentFunctionID" th:field="*{departmentFunctionID}"/>
                     </div>
                 </td>
                 <td>

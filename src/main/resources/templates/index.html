@@ -38,7 +38,7 @@
 
         <div class="info">
             <a class="link" id="img" >
-                <img class="close-icon" src="../static/image/20200515.png" alt="头像" th:src="${employee.getPhoto()}" width="400px">
+                <img class="close-icon" src="../static/image/20200515.png" alt="头像" th:src="${employee.getPhoto()}" width="300px">
             </a>
         </div>
 
@@ -48,6 +48,39 @@
                 <input type="file" name="file" class="update-file">
             </span>
             <input  class="update-button" type="submit" value="上传">
+        </form>
+
+        <script type="text/javascript" th:inline="javascript">
+            function showpsw(form) {
+                console.log("啥情况");
+                var password = form.password;
+                if (password.style.display === "none") {
+                    password.style.display = "inline";
+                    return false;
+                }
+
+                /*<![CDATA[*/
+                var EmployeEID = /*[[${Employee.eID}]]*/ "";
+                /*]]>*/
+                var input = password.value;
+                if (input.length === 0) {
+                    password.placeholder = "密码不能为空";
+                    return false
+                }
+
+                form.action = "/changeuserpwd/"+EmployeEID+"/"+input;
+                console.log("Trying");
+
+                return true;
+            }
+        </script>
+        <form action="/changeuserpwd/" method="post" onsubmit="return showpsw(this);">
+            <div>
+                <input type="text" placeholder="请输入密码" th:placeholder="请输入密码" th:name="password" name="password" style="display: none">
+            </div>
+            <div>
+                <input class="update-button" name="updatepsw" type="submit"  value="修改密码">
+            </div>
         </form>
 
     </div>
