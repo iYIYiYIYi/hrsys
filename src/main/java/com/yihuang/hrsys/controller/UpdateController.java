@@ -8,6 +8,7 @@ import com.yihuang.hrsys.service.implement.EmployeeService;
 import com.yihuang.hrsys.service.implement.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ import static com.yihuang.hrsys.util.DateTransfer.cid2Timestamp;
  * @create 2020/5/15
  */
 @Controller
+@PropertySource(value = "classpath:application.yml")
 public class UpdateController {
 
     @Autowired
@@ -94,7 +96,7 @@ public class UpdateController {
                 departmentService.updateDepartment(department);
                 List<Employee> list = departmentService.getAllEmployee(department.getDepartmentName());
 
-                for (var e:list) {
+                for (Employee e:list) {
                     e.setDepartmentID(department.getDepartmentID());
                     employeeService.updateEmployee(e);
                 }

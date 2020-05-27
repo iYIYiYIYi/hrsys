@@ -3,6 +3,7 @@ package com.yihuang.hrsys.service.implement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -15,6 +16,7 @@ import java.io.IOException;
  * @create 2020/5/25
  */
 @Service
+@PropertySource(value = "classpath:application.yml")
 public class DatabaseBackup {
 
     private static final Logger log = LoggerFactory.getLogger(DatabaseBackup.class);
