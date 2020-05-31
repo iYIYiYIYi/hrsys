@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * com.yihuang.hrsys.controller
- *
+ * 用户控制器，返回普通用户的视图
  * @author yihuang728
  * @create 2020/5/15
  */
@@ -24,10 +24,13 @@ public class UserController {
     @Autowired
     private EmployeeService employeeService;
     @Autowired
-    private DepartmentService departmentService;
-    @Autowired
     private UserService userService;
 
+    /***
+     * 返回普通用户的视图
+     * @param session
+     * @return
+     */
     @RequestMapping(value = {"/","/index/{username}","/index"})
     public ModelAndView index(HttpSession session) {
         String username = (String) session.getAttribute("username");

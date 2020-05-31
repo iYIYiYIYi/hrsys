@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * com.yihuang.hrsys.service
- *
+ * 部门服务接口
  * @author yihuang728
  * @create 2020/04/27
  */

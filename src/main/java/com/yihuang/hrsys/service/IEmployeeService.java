@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * com.yihuang.hrsys.service
- *
+ * 员工服务接口
  * @author yihuang728
  * @create 2020/5/13
  */

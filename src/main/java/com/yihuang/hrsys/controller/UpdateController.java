@@ -26,7 +26,7 @@ import static com.yihuang.hrsys.util.DateTransfer.cid2Timestamp;
 
 /**
  * com.yihuang.hrsys.controller
- *
+ * 更新接口，更新或添加用户和部门信息
  * @author yihuang728
  * @create 2020/5/15
  */
@@ -41,6 +41,12 @@ public class UpdateController {
     @Autowired
     private DepartmentService departmentService;
 
+    /***
+     * 更新用户
+     * @param employee
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/update")
     public String updateEmployee(@ModelAttribute(value = "Employee") Employee employee, HttpSession session) {
         String s = (String) session.getAttribute("username");
@@ -48,12 +54,19 @@ public class UpdateController {
             return "redirect:/login";
         }
 
+        //通过员工的身份证号来设置生日
         employee.setBirthday(cid2Timestamp(employee.getcID()));
         employeeService.updateEmployee(employee);
         return "redirect:/index/"+ s;
 
     }
 
+    /***
+     * 添加新员工接口
+     * @param employee
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/add")
     public String addEmployee(@ModelAttribute(value = "newEmployee") Employee employee
                                 ,HttpSession session) {
@@ -73,6 +86,12 @@ public class UpdateController {
         return "redirect:/dashboard/"+session.getAttribute("nd");
     }
 
+    /***
+     * 删除员工接口
+     * @param eID
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/delete/{eID}")
     public String deleteEmployee(@PathVariable Long eID,HttpSession session) {
         if (userService.findUser((String) session.getAttribute("username")).isRoot()) {
@@ -89,6 +108,12 @@ public class UpdateController {
         return "redirect:/index/"+session.getAttribute("username");
     }
 
+    /***
+     * 更新部门接口
+     * @param department
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/updateDepartment")
     public String updateDepartment(@ModelAttribute(value = "Department") Department department, HttpSession session) {
         if (department != null) {
@@ -108,6 +133,12 @@ public class UpdateController {
         return "redirect:/dashboard/"+session.getAttribute("nd");
     }
 
+    /***
+     * 添加部门接口
+     * @param department
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/addDepartment")
     public String addDepartment(@ModelAttribute(value = "newDepartment") Department department,HttpSession session) {
         if (department != null) {
@@ -119,6 +150,12 @@ public class UpdateController {
         return "redirect:/dashboard/"+session.getAttribute("nd");
     }
 
+    /***
+     * 删除部门接口
+     * @param departmentID
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/deleteDepartment/{departmentID}")
     public String deleteDepartment(@PathVariable Long departmentID,HttpSession session) {
         if (userService.findUser((String) session.getAttribute("username")).isRoot()) {

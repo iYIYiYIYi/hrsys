@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * com.yihuang.hrsys.controller
- *
+ *下载控制器
  * @author yihuang728
  * @create 2020/5/25
  */
@@ -32,13 +32,16 @@ import java.util.List;
 public class DownloadController {
 
     @Autowired
-    private EmployeeService employeeService;
-    @Autowired
-    private UserService userService;
-    @Autowired
     private DepartmentService departmentService;
 
-
+    /***
+     * 提供导出的部门员工的Excel表单的下载
+     * @param departmentID
+     * @param response
+     * @param session
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     @RequestMapping(value = "/download/{departmentID}")
     public String downloadExcel(@PathVariable Long departmentID,
                                 HttpServletResponse response,

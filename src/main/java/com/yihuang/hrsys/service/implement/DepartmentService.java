@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * com.yihuang.hrsys.service.implement
- *
+ * 部门服务，提供部门各类数据的修改和获取功能
  * @author yihuang728
  * @create 2020/5/13
  */

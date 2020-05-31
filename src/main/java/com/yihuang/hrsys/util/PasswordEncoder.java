@@ -4,14 +4,14 @@ import java.security.MessageDigest;
 
 /**
  * com.yihuang.hrsys.util
- *
+ * 加密类，提供对密码进行加密的静态方法
  * @author yihuang728
  * @create 2020/5/13
  */
 public class PasswordEncoder {
 
     /***
-     * MD5加码 生成32位md5码
+     * MD5加密 生成32位md5码
      */
     public static String string2MD5(String inStr) {
         MessageDigest md5 = null;

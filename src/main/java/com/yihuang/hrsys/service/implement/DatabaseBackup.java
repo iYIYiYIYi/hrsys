@@ -11,7 +11,7 @@ import java.io.IOException;
 
 /**
  * com.yihuang.hrsys.service.implement
- *
+ * 数据库备份服务，通过终端内MySQL的SQLDUMP指令备份数据库的sql文件
  * @author yihuang728
  * @create 2020/5/25
  */

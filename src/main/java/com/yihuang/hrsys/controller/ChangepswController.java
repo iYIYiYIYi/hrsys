@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * com.yihuang.hrsys.controller
- *
+ * 修改密码
  * @author yihuang728
  * @create 2020/5/26
  */
@@ -23,6 +23,13 @@ public class ChangepswController {
     @Autowired
     private UserService userService;
 
+    /***
+     * 修改密码接口，需要检测用户权限
+     * @param session
+     * @param username
+     * @param password
+     * @return
+     */
     @RequestMapping(value = "/changeuserpwd/{username}/{password}")
     public ModelAndView changePassword(
             HttpSession session,
@@ -31,6 +38,8 @@ public class ChangepswController {
     ) {
         String from  = (String) session.getAttribute("username");
         User fromUser = userService.findUser(from);
+
+        //检测用户权限是否能修改当前用户的密码
         if ((from != username) && (!fromUser.isRoot())) {
             return new ModelAndView("redirect:/login"){
                 {

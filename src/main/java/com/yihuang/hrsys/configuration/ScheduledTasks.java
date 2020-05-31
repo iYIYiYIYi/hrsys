@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 
 /**
  * com.yihuang.hrsys.configuration
- *
+ * 数据库备份定时任务
  * @author yihuang728
  * @create 2020/5/25
  */

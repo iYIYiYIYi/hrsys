@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * com.yihuang.hrsys.controller
- *
+ * 管理员界面控制器
  * @author yihuang728
  * @create 2020/5/15
  */
@@ -29,6 +29,13 @@ public class DashBoardController {
     @Autowired
     private DepartmentService departmentService;
 
+    /***
+     * 实现管理员页面对不同部门、员工的控制
+     * @param departmentID
+     * @param employeeEID
+     * @param session
+     * @return
+     */
     @RequestMapping(value = {"/dashboard/{departmentID}/{employeeEID}","/dashboard/{departmentID}","/dashboard"})
     public ModelAndView dashboard(
             @PathVariable(value = "departmentID" , required = false) Long departmentID,

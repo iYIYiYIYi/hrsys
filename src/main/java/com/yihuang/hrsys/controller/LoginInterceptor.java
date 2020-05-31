@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * com.yihuang.hrsys.controller
- *
+ * 登录拦截器
  * @author yihuang728
  * @create 2020/04/26
  */
@@ -16,6 +16,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     /***
      * 在请求之前调用
+     * 若请求中没有username选项，则将被拦截访问并跳转至登陆页面
      * @param request
      * @param response
      * @param handler

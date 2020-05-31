@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * com.yihuang.hrsys.service.implement
- *
+ * 员工服务，提供员工的数据获取和修改功能
  * @author yihuang728
  * @create 2020/5/13
  */

@@ -7,7 +7,9 @@ import java.util.Date;
 
 /**
  * com.yihuang.hrsys.util
- *
+ * 日期转换，由于Java的Date日期对象存入MySQL时可能会发生无法读取的现象
+ * 故将Date对象转换为MySQL能识别的Timestamp对象
+ * 并将Timestamp对象存入数据库
  * @author yihuang728
  * @create 2020/4/24
  */
@@ -48,10 +50,20 @@ public class DateTransfer {
         return Timestamp.valueOf(dateFormat.format(t));
     }
 
+    /***
+     * 截取Timestamp对象中的无用信息并返回String字符串对象
+     * @param timestamp
+     * @return
+     */
     public static String timestampToString(Timestamp timestamp) {
         return timestamp==null?"":timestamp.toString().substring(0,10);
     }
 
+    /***
+     * 提取身份证中的日期字符并将其转换为Timestamp对象
+     * @param cid
+     * @return
+     */
     public static Timestamp cid2Timestamp(String cid) {
 
         StringBuilder date = new StringBuilder(cid.substring(6,14));

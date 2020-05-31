@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * com.yihuang.hrsys.configuration
- *
+ * Spring Boot配置类
  * @author yihuang728
  * @create 2020/04/26
  */
@@ -26,7 +26,7 @@ public class configures implements WebMvcConfigurer {
         // 排除路径
         loginRegistry.excludePathPatterns("/login");
 
-//        // 排除资源请求
+        // 排除资源请求
         loginRegistry.excludePathPatterns("/css/*.css");
         loginRegistry.excludePathPatterns("/js/*.js");
         loginRegistry.excludePathPatterns("/image/*.png");

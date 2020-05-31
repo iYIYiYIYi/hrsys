@@ -13,7 +13,7 @@ import static com.yihuang.hrsys.util.PasswordEncoder.string2MD5;
 
 /**
  * com.yihuang.hrsys.service.implement
- *
+ * 用户服务，提供用户的获取与修改。以及登陆验证功能
  * @author yihuang728
  * @create 2020/5/13
  */
