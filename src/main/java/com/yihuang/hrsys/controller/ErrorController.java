@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @create 2020/5/26
  */
 @ControllerAdvice
+//@Controller
 public class ErrorController {
 
     @RequestMapping("/error")

@@ -24,8 +24,18 @@
 <div class="Nav">
     <ul class="urls">
         <li>
+            <script th:inline="javascript" type="text/javascript">
+                function exit(link) {
+                    /*<![CDATA[*/
+                    var url = /*[[@{'/exit'}]]*/ "";
+                    /*]]>*/
+                    if (window.confirm("确定要退出吗？")){
+                        link.href = url;
+                    }
+                }
+            </script>
             <a class="link" href="/">员工人事管理</a>
-            <a class="hello-msg" th:text="'欢迎，'+${username}">欢迎，请登录</a>
+            <a class="hello-msg" onclick="exit(this)" style="cursor: pointer" th:text="'欢迎，'+${username}">欢迎，请登录</a>
         </li>
     </ul>
 </div>

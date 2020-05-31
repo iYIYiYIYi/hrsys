@@ -20,17 +20,17 @@ spring:
 #图片上传路径映射 自定义属性
 upload:
   picture:
-    path: "root/springboot/upload/"
+    path: "/hrsys/springboot/upload/"
 
 #数据库备份路径
 sqlbackup:
-  path: "root/springboot/sql/"
-  staticPath: "root/springboot/sql/"
+  path: "/hrsys/springboot/sql/"
+  staticPath: "/hrsys/springboot/sql/"
 
 #指定文件的位置, 没有指定时会自动创建一个临时文件夹
 spring:
   servlet:
     multipart:
-      location: "root/springboot/upload/"
+      location: "/hrsys/springboot/upload/"
   profiles:
     active: release

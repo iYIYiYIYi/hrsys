@@ -43,5 +43,10 @@ public class LoginController {
         return "login";
     }
 
+    @RequestMapping("/exit")
+    public String exit(HttpSession session) {
+        session.setAttribute("username",null);
+        return "redirect:/login";
+    }
 
 }
